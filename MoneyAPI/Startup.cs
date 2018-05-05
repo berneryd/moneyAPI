@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using MoneyAPI.EFModels;
+using MoneyAPI.Filters;
 
 namespace MoneyAPI
 {
@@ -25,9 +26,12 @@ namespace MoneyAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new CustomErrorFilter());
+            });
 
-            var connection = @"Server=BIGBOY\SQLEXPRESS;Database=purchaseHistory;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = @"Server=BIGBOY\SQLEXPRESS;Database=purchaseHistory;Integrated Security=True;ConnectRetryCount=0";
             services.AddDbContext<PurchaseHistoryContext>(options => options.UseSqlServer(connection));
         }
 

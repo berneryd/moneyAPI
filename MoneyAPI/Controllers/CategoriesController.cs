@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoneyAPI.EFModels;
 using MoneyAPI.Models;
-using Newtonsoft.Json;
 
 namespace MoneyAPI.Controllers
 {
@@ -22,10 +18,10 @@ namespace MoneyAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Category> Get()
+        public IActionResult Get()
         {
             var purchases = this.dbContext.Categories;
-            return purchases.Select(x => ConvertToModel(x));
+            return Ok(purchases.Select(x => ConvertToModel(x)));
         }
 
         private Category ConvertToModel(Categories category)
